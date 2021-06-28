@@ -84,18 +84,51 @@
 //   throw new Error('没油了');
 // };
 // drive();
-const getGasonLine = () => {
-  return false;
-};
-const drive = () => {
-  const gasonline = getGasonLine();
-  if (!gasonline) {
-    throw new Error('没油了');
+// const getGasonLine = () => {
+//   return false;
+// };
+// const drive = () => {
+//   const gasonline = getGasonLine();
+//   if (!gasonline) {
+//     throw new Error('没油了');
+//   }
+//   console.log('呜~呜~~~~');
+// };
+// try {
+//   drive();
+// } catch (error) {
+//   console.log(error.message);
+// }
+
+//类
+// class Car {
+//   engine;
+
+//   drive() {
+//     console.log('dfdfdfdfdf');
+//   }
+// }
+// const c1 = new Car();
+// c1.drive();
+// console.log(c1);
+//构造方法
+class Car {
+  engine;
+  constructor(engine) {
+    //this
+    this.engine = engine;
+    //构造方法
+    console.log('一辆崭新的汽车');
   }
-  console.log('呜~呜~~~~');
-};
-try {
-  drive();
-} catch (error) {
-  console.log(error.message);
+  drive() {
+    console.log('dfdfdfdfdf');
+  }
 }
+//继承
+// class PickupTruck extends Car {}
+// //const c1 = new Car('V8');
+// //const c2 = new Car('V12');
+// const p1 = new PickupTruck('V8');
+// p1.drive();
+// //c1.drive();
+// //console.log(c1, c2);
