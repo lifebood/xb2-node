@@ -2,10 +2,13 @@ const { response } = require('express');
 const express = require('express');
 const app = express();
 const prot = 3000;
+//使用json中间件
+app.use(express.json());
 
 app.listen(prot, () => {
   console.log('服务已启动');
 });
+
 app.get('/', (request, response) => {
   response.send('你好');
 });
@@ -38,4 +41,20 @@ app.get('/posts/:postId', (req, res) => {
   const posts = data.filter((item) => item.id == postId);
   //做出响应
   res.send(posts[0]);
+});
+
+//创建内容
+app.post('/posts', (req, res) => {
+  //获取请求资源
+  const { content } = req.body;
+  //设置响应代码
+  res.status(201);
+  //输出请求头部数据
+  console.log(req.headers['sing-along']);
+  //设置响应头部数据
+  res.set('Sing-Along', 'How I wonder what you are!');
+  //做出响应
+  res.send({
+    message: `成功创建了内容:${content}`,
+  });
 });
