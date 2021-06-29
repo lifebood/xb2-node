@@ -1,4 +1,4 @@
-const { response } = require('express');
+// const { response } = require('express');
 const express = require('express');
 const app = express();
 const prot = 3000;
@@ -58,3 +58,4 @@ app.post('/posts', (req, res) => {
     message: `成功创建了内容:${content}`,
   });
 });
+//https://ninghao.net/video/8252
