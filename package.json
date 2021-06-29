@@ -1,6 +1,9 @@
 {
   "name": "xb2-node",
   "version": "1.0.0",
-  "description": "严勇的第一个演示项目",
-  "author": "YYU"
+  "description": "YY的第一个演示项目",
+  "author": "YY",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
