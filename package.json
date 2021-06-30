@@ -5,7 +5,7 @@
   "author": "YY",
   "scripts": {
     "start:dev": "tsc-watch --onSuccess \"node dist/main.js\"",
-    "format":"prettier --wirte \"src/**/*.ts\""
+    "format": "prettier --wirte \"src/**/*.ts\""
   },
   "dependencies": {
     "express": "^4.17.1"
@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/express": "^4.17.1",
     "@types/node": "^15.12.5",
+    "dotenv": "^8.2.0",
     "prettier": "^1.19.1",
     "tsc-watch": "^4.2.3",
     "typescript": "^3.8.3"
