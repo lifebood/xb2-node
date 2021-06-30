@@ -1,5 +1,7 @@
 // const { response } = require('express');
-const express = require('express');
+//const express = require('express');
+import express from 'express';
+import {Request,Response} from 'express';
 const app = express();
 const prot = 3000;
 //使用json中间件
@@ -9,7 +11,7 @@ app.listen(prot, () => {
   console.log('服务已启动');
 });
 
-app.get('/', (request, response) => {
+app.get('/', (request:Request, response:Response) => {
   response.send('你好');
 });
 const data = [
@@ -30,21 +32,21 @@ const data = [
   },
 ];
 
-app.get('/posts', (request, response) => {
+app.get('/', (request:Request, response:Response) => {
   response.send(data);
 });
 
-app.get('/posts/:postId', (req, res) => {
+app.get('/posts/:postId', (req:Request, res:Response) => {
   //获取内容ID
   const { postId } = req.params;
   //查找具体内容
-  const posts = data.filter((item) => item.id == postId);
+  const posts = data.filter((item) => item.id == parseInt(postId,10));
   //做出响应
   res.send(posts[0]);
 });
 
 //创建内容
-app.post('/posts', (req, res) => {
+app.post('/posts', (req:Request, res:Response) => {
   //获取请求资源
   const { content } = req.body;
   //设置响应代码
