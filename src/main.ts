@@ -1,4 +1,4 @@
-import app from './app';
+import app from './app/index';
 import { APP_PORT } from './app/app.config';
 
 //console.log(APP_PORT);
