@@ -1,2 +1,3 @@
 npm install mysql2@2.1.0
 npm install types/mysql2 --save-dev
+
