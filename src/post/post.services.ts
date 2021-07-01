@@ -12,5 +12,6 @@ export const getPosts = () => {
       content: '日出江花红胜火,春来江水绿如蓝',
     },
   ];
+
   return data;
 };
