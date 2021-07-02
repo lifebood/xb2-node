@@ -19,24 +19,3 @@ export const store = async (
     next(error);
   }
 };
-
-/**
- * 查找用户
- */
-
-// export const findUser = async (
-//   request: Request,
-//   response: Response,
-//   next: NextFunction,
-// ) => {
-//   const { username } = request.params;
-
-//   try {
-//     const data = await userService.getUserByName(username);
-//     if (data == undefined) {
-
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };

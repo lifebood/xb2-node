@@ -17,17 +17,26 @@ export const createUser = async (user: UserModel) => {
 };
 
 /**
- * 查找用户
+ * 按用户名查找用户
  */
-
-export const getUserByName = async (name: string) => {
+interface getUserOptions {
+  password?: boolean;
+}
+export const getUserByName = async (
+  name: string,
+  options: getUserOptions = {},
+) => {
+  const { password } = options;
   const sqlstring = `
-    select id,name 
+    select 
+    id,
+    name
+    ${password ? ',password' : ''}
     from user 
     where name = ?
     `;
 
   const [data] = await connection.promise().query(sqlstring, name);
-
+  //console.log(data[0]);
   return data[0];
 };
