@@ -4,6 +4,8 @@ import postRouter from '../post/post.router';
 
 import userRouter from '../user/user.router';
 
+import authRouter from '../auth/auth.router';
+
 import { defalutErrorHandler } from './app.middleware';
 //创建应用
 const app = express();
@@ -12,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 //路由
-app.use(postRouter, userRouter);
+app.use(postRouter, userRouter, authRouter);
 
 /**
  * 默认异常处理器
