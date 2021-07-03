@@ -4,6 +4,7 @@ import * as postController from './post.controller';
 
 import { requsetUrl } from '../app/app.middleware';
 
+import { authGuard } from '../auth/auth.middleware';
 const router = express.Router();
 /**
  * 内容列表
@@ -13,7 +14,7 @@ router.get('/posts', requsetUrl, postController.index);
 /**
  * 创建内容
  */
-router.post('/posts', postController.store);
+router.post('/posts', authGuard, postController.store);
 
 /**
  * 更新内容
