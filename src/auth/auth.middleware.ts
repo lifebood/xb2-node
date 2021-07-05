@@ -4,6 +4,7 @@ import * as userService from '../user/user.userservice';
 import bcrypt from 'bcrypt';
 import { PUBLIC_KEY } from '../app/app.config';
 import { TokenPayload } from './auth.interface';
+import { possess } from './auth.service';
 /**
  * 验证用户登录
  */
@@ -38,7 +39,6 @@ export const validateLoginData = async (
 /**
  * 验证用户身份
  */
-
 export const authGuard = (
   request: Request,
   response: Response,
@@ -49,11 +49,11 @@ export const authGuard = (
     //提取Authourization
     const authorization = request.header('Authorization');
 
-    console.log(request.headers);
+    //console.log(request.headers);
     if (!authorization) throw new Error();
     //提取JWT令牌
     const token = authorization.replace('Bearer ', '');
-    console.log(token);
+    //console.log(token);
     if (!token) throw new Error();
     //验证令牌
 
@@ -69,4 +69,43 @@ export const authGuard = (
   } catch (error) {
     next(new Error('UNAUTHORIZD'));
   }
+};
+
+/**
+ * 访问控制
+ */
+interface AccessControlOptions {
+  possession?: boolean;
+}
+
+export const accessControl = (options: AccessControlOptions) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    console.log('访问控制');
+
+    //j解构选项
+    const { possession } = options;
+    //当前用户ID
+
+    //当前用户id
+    const { id: userId } = request.user;
+    //放行管理员
+    if (userId == 1) return next();
+
+    //准备资源
+    const resourceIdParam = Object.keys(request.params)[0];
+
+    const resourceType = resourceIdParam.replace('Id', '');
+
+    const resourceId = parseInt(request.params[resourceIdParam], 10);
+    //检查拥有权
+    try {
+      const ownResource = await possess({ resourceId, resourceType, userId });
+      if (!ownResource) {
+        return next(new Error('USER_DOSE_NOT_OWN_RESOURCE'));
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
 };

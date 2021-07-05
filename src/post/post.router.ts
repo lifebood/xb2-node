@@ -4,7 +4,8 @@ import * as postController from './post.controller';
 
 import { requsetUrl } from '../app/app.middleware';
 
-import { authGuard } from '../auth/auth.middleware';
+import { authGuard, accessControl } from '../auth/auth.middleware';
+
 const router = express.Router();
 /**
  * 内容列表
@@ -20,11 +21,21 @@ router.post('/posts', authGuard, postController.store);
  * 更新内容
  */
 
-router.patch('/posts/:PostId', postController.update);
+router.patch(
+  '/posts/:PostId',
+  authGuard,
+  accessControl({ possession: true }),
+  postController.update,
+);
 /**
  * 删除内容
  */
-router.delete('/posts/:PostId', postController.destroy);
+router.delete(
+  '/posts/:PostId',
+  authGuard,
+  accessControl({ possession: true }),
+  postController.destroy,
+);
 
 /**
  * 导出路由
