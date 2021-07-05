@@ -1,0 +1,17 @@
+{
+"Express handler / middeware":{
+	"prefix": "eh",
+	"body": [
+		"/**",
+" * $1",
+" */",
+"export const ${2:Name} = async (",
+"    request: Request,",
+"    response: Response,",
+"    next: NextFunction,",
+"  ) => {",
+"    ",
+"  };"
+	]
+}
+}
