@@ -54,7 +54,7 @@ export const serve = async (
     //做出响应
     response.sendFile(file.filename, {
       root: 'uploads',
-      Headers: {
+      headers: {
         'Content-Type': file.mimetype,
       },
     });
