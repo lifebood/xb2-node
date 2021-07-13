@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import { Request, Response, NextFunction } from 'express';
 import _ from 'lodash';
 import { createFile, findFileById } from './file.service';
@@ -15,6 +17,7 @@ export const store = async (
 
   //所属内容
   const { post: postId } = request.query;
+
   //const postId = parseInt(`${postId1}`, 10);
   //文件信息
   const fileInfo = _.pick(request.file, [
@@ -30,6 +33,7 @@ export const store = async (
       ...fileInfo, //...****这个是一个
       userId,
       postId: parseInt(`${postId}`, 10), ///**** */
+      ...request.fileMetaData, //添加文件信息
     });
 
     //做出响应
@@ -51,14 +55,66 @@ export const serve = async (
   try {
     //查找文件信息
     const file = await findFileById(parseInt(fileId, 10));
+
+    //要提供的图像尺寸
+    const { size } = request.query;
+
+    //console.log(size);
+    //文件名与目录
+    let filename = file.filename;
+    let root = 'uploads';
+    let resized = 'resized';
+
+    if (size) {
+      //可用尺寸
+      const imageSizes = ['large', 'medium', 'thumbnail'];
+      //检查文件尺寸是否可用
+      if (!imageSizes.some(item => item == size)) {
+        throw new Error('FILE_NOT_FOUND');
+      }
+      //检查文件是否存在
+      const fileExist = fs.existsSync(
+        path.join(root, resized, `${filename}-${size}`),
+      );
+
+      //设备文件名与目录
+      if (fileExist) {
+        filename = `${filename}-${size}`;
+        root = path.join(root, resized);
+      }
+    }
+    console.log(root);
+    console.log(filename);
     //做出响应
-    response.sendFile(file.filename, {
-      root: 'uploads',
+    response.sendFile(filename, {
+      root,
+      //bug Header ->header
       headers: {
         'Content-Type': file.mimetype,
       },
     });
-    console.log(file.mimetype);
+    //console.log(file.mimetype);
+  } catch (error) {
+    next(error);
+  }
+};
+/**
+ * 文件信息
+ */
+export const metadata = async (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  //文件ID
+  const { fileId } = request.params;
+  try {
+    //准备查询数据
+    const file = await findFileById(parseInt(fileId, 10));
+    //准备响应数据
+    const data = _.pick(file, ['id', 'size', 'width', 'height', 'metadata']);
+    //做出相应
+    response.send(data);
   } catch (error) {
     next(error);
   }
